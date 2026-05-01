@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sevgilime Mektup 💌</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffd6e8, #fff0f6);
+      font-family: "Georgia", serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #c2185b;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    /* Mektup */
+    .envelope {
+      width: 320px;
+      height: 220px;
+      background: #fff;
+      position: relative;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope:hover {
+      transform: scale(1.05);
+    }
+
+    /* Kapak */
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffb6d5;
+      clip-path: polygon(0 0, 100% 0, 50% 55%);
+      border-radius: 12px;
+      transition: transform 0.8s ease;
+      transform-origin: top;
+      z-index: 3;
+    }
+
+    /* İç kağıt */
+    .letter {
+      position: absolute;
+      top: 20px;
+      left: 15px;
+      width: 290px;
+      height: 180px;
+      background: #fffdf7;
+      border-radius: 10px;
+      padding: 15px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+      z-index: 2;
+      border: 2px dashed #ff7eb3;
+    }
+
+    .letter h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #d81b60;
+      text-align: center;
+    }
+
+    .poem {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #444;
+      line-height: 1.6;
+      white-space: pre-line;
+      text-align: center;
+    }
+
+    /* Açılmış hali */
+    .open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .open .letter {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    /* Partiküller */
+    .particle {
+      position: absolute;
+      font-size: 24px;
+      animation: fly 2.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translate(0,0) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    /* Küçük not */
+    .note {
+      margin-top: 15px;
+      color: #a0004d;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>💌 Sana Bir Mektubum Var</h1>
+
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+
+      <div class="letter" id="letter">
+        <h2>Sevgilim ❤️</h2>
+        <div class="poem">
+çok aşığım sana tubam
+çok üzdüm seni biliyorum
+sensiz rahat uyuyamıyorum
+
+senin olmadığın yerde yok bana huzur
+ben beklerim seni bi ömür 
+
+sana deliler gibi aşığım
+anlatmaya yetmiyo kelime dağarcığım
+evrene sıvmaz sana olan sevgim 
+ömür boyu seni isterim
+
+ilk buluşmamızda sıkı sıkı sarılcam sana
+asla gitmek istemicem o zamanda
+hep kalmak istiyorum yanında
+
+en sevdiğim yerdir yanakların 
+en çok gider hoşuma kahküllü saçların
+
+gözlerine bakmadan duramam
+sen benim tek duam
+
+biliyorum allah yok
+sana olan aşkım çok
+
+lütfen bırakmayalım birbirimizi
+yaşatalım Türk gençliğimizi
+        </div>
+      </div>
+    </div>
+
+    <div class="note">Mektuba dokun 💖</div>
+  </div>
+
+
+  <script>
+    const envelope = document.getElementById("envelope");
+
+    envelope.addEventListener("click", () => {
+      envelope.classList.toggle("open");
+      shootParticles();
+    });
+
+    function shootParticles() {
+      const emojis = ["❤️", "💖", "💘", "🌸", "🌹", "🌷", "💐", "✨"];
+
+      for (let i = 0; i < 35; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // Rastgele konum
+        const startX = window.innerWidth / 2;
+        const startY = window.innerHeight / 2;
+
+        particle.style.left = startX + "px";
+        particle.style.top = startY + "px";
+
+        // Rastgele uçuş yönü
+        const x = (Math.random() - 0.5) * 600;
+        const y = (Math.random() - 1) * 600;
+
+        particle.style.setProperty("--x", x + "px");
+        particle.style.setProperty("--y", y + "px");
+
+        document.body.appendChild(particle);
+
+        // Silme
+        setTimeout(() => {
+          particle.remove();
+        }, 2500);
+      }
+    }
+  </script>
+
+</body>
+</html>
